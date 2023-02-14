@@ -1,0 +1,149 @@
+type:
+  fire: 
+  grass:
+  water:
+  electric:
+  ground:
+  rock:
+  bug:
+  normal:
+    - 016	Pidgey
+    - 017	Pidgeotto
+    - 018	Pidgeot
+    - 019	Rattata
+    - 020	Raticate
+    - 021	Spearow
+    - 022	Fearow
+    - 039	Jigglypuff
+    - 040	Wigglytuff
+    - 052	Meowth
+    - 053	Persian
+    - 083	Farfetch'd
+    - 084	Doduo
+    - 085	Dodrio
+    - 108	Lickitung
+    - 113	Chansey
+    - 115	Kangaskhan
+    - 128	Tauros
+    - 132	Ditto
+    - 133	Eevee
+    - 137	Porygon
+    - 143	Snorlax
+    - 161	Sentret
+    - 162	Furret
+    - 163	Hoothoot
+    - 164	Noctowl
+    - 174	Igglybuff
+    - 190	Aipom
+    - 203	Girafarig
+    - 206	Dunsparce
+    - 216	Teddiursa
+    - 217	Ursaring
+    - 233	Porygon2
+    - 234	Stantler
+    - 235	Smeargle
+    - 241	Miltank
+    - 242	Blissey
+    - 263	Zigzagoon
+    - 264	Linoone
+    - 276	Taillow
+    - 277	Swellow
+    - 287	Slakoth
+    - 288	Vigoroth
+    - 289	Slaking
+    - 293	Whismur
+    - 294	Loudred
+    - 295	Exploud
+    - 298	Azurill
+    - 300	Skitty
+    - 301	Delcatty
+    - 327	Spinda
+    - 333	Swablu
+    - 335	Zangoose
+    - 351	Castform
+    - 352	Kecleon
+    - 396	Starly
+    - 397	Staravia
+    - 398	Staraptor
+    - 399	Bidoof
+    - 400	Bibarel
+    - 424	Ambipom
+    - 427	Buneary
+    - 428	Lopunny
+    - 431	Glameow
+    - 432	Purugly
+    - 440	Happiny
+    - 441	Chatot
+    - 446	Munchlax
+    - 463	Lickilicky
+    - 474	Porygon-Z
+    - 486	Regigigas
+    - 493	Arceus
+    - 504	Patrat
+    - 505	Watchog
+    - 506	Lillipup
+    - 507	Herdier
+    - 508	Stoutland
+    - 519	Pidove
+    - 520	Tranquill
+    - 521	Unfezant
+    - 531	Audino
+    - 572	Minccino
+    - 573	Cinccino
+    - 585	Deerling
+    - 586	Sawsbuck
+    - 626	Bouffalant
+    - 627	Rufflet
+    - 628	Braviary
+    - 648	Meloetta
+    - 659	Bunnelby
+    - 660	Diggersby
+    - 661	Fletchling
+    - 667	Litleo
+    - 668	Pyroar
+    - 676	Furfrou
+    - 694	Helioptile
+    - 695	Heliolisk
+    - 731	Pikipek
+    - 732	Trumbeak
+    - 733	Toucannon
+    - 734	Yungoos
+    - 735	Gumshoos
+    - 759	Stufful
+    - 760	Bewear
+    - 765	Oranguru
+    - "772	Type: Null"
+    - 773	Silvally
+    - 775	Komala
+    - 780	Drampa
+    - 819	Skwovet
+    - 820	Greedent
+    - 831	Wooloo
+    - 832	Dubwool
+    - 862	Obstagoon
+    - 876	Indeedee
+    - 899	Wyrdeer
+    - 901	Ursaluna
+    - 915	Lechonk
+    - 916	Oinkologne
+    - 924	Tandemaus
+    - 925	Maushold
+    - 928	Smoliv
+    - 929	Dolliv
+    - 930	Arboliva
+    - 931	Squawkabilly
+    - 944	Shroodle
+    - 945	Grafaiai
+    - 967	Cyclizar
+    - 981	Farigiraf
+    - 982	Dudunsparce
+  fighting:
+  poison:
+  flying:
+  ice:
+  psychic:
+  ghost:
+  dragon:
+  dark:
+  steel:
+  fairy:
