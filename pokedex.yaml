@@ -1,100 +1,100 @@
 type:
-  fire:
-    - 004	Charmander	
-    - 005	Charmeleon	
-    - 006	Charizard	
-    - 006	Charizard	Mega Charizard X
-    - 006	Charizard	Mega Charizard Y
-    - 037	Vulpix	
-    - 038	Ninetales	
-    - 058	Growlithe	
-    - 058	Growlithe	Hisuian Growlithe
-    - 059	Arcanine	
-    - 059	Arcanine	Hisuian Arcanine
-    - 077	Ponyta	
-    - 078	Rapidash	
-    - 105	Marowak	Alolan Marowak
-    - 126	Magmar	
-    - 128	Tauros	Blaze Breed
-    - 136	Flareon	
-    - 146	Moltres	
-    - 155	Cyndaquil	
-    - 156	Quilava	
-    - 157	Typhlosion	
-    - 157	Typhlosion	Hisuian Typhlosion
-    - 218	Slugma	
-    - 219	Magcargo	
-    - 228	Houndour	
-    - 229	Houndoom	
-    - 229	Houndoom	Mega Houndoom
-    - 240	Magby	
-    - 244	Entei	
-    - 250	Ho-oh	
-    - 255	Torchic	
-    - 256	Combusken	
-    - 257	Blaziken	
-    - 257	Blaziken	Mega Blaziken
-    - 322	Numel	
-    - 323	Camerupt	
-    - 323	Camerupt	Mega Camerupt
-    - 324	Torkoal	
-    - 351	Castform	Sunny Form
-    - 383	Groudon	Primal Groudon
-    - 390	Chimchar	
-    - 391	Monferno	
-    - 392	Infernape	
-    - 467	Magmortar	
-    - 479	Rotom	Heat Rotom
-    - 485	Heatran	
-    - 494	Victini	
-    - 498	Tepig	
-    - 499	Pignite	
-    - 500	Emboar	
-    - 513	Pansear	
-    - 514	Simisear	
-    - 554	Darumaka	
-    - 555	Darmanitan	Standard Mode
-    - 555	Darmanitan	Zen Mode
-    - 555	Darmanitan	Galarian Zen Mode
-    - 607	Litwick	
-    - 608	Lampent	
-    - 609	Chandelure	
-    - 631	Heatmor	
-    - 636	Larvesta	
-    - 637	Volcarona	
-    - 643	Reshiram	
-    - 653	Fennekin	
-    - 654	Braixen	
-    - 655	Delphox	
-    - 662	Fletchinder	
-    - 663	Talonflame	
-    - 667	Litleo	
-    - 668	Pyroar	
-    - 721	Volcanion	
-    - 725	Litten	
-    - 726	Torracat	
-    - 727	Incineroar	
-    - 741	Oricorio	Baile Style
-    - 757	Salandit	
-    - 758	Salazzle	
-    - 776	Turtonator	
-    - 806	Blacephalon	
-    - 813	Scorbunny	
-    - 814	Raboot	
-    - 815	Cinderace	
-    - 838	Carkol	
-    - 839	Coalossal	
-    - 850	Sizzlipede	
-    - 851	Centiskorch	
-    - 909	Fuecoco	
-    - 910	Crocalor	
-    - 911	Skeledirge	
-    - 935	Charcadet	
-    - 936	Armarouge	
-    - 937	Ceruledge	
-    - 952	Scovillain	
-    - 994	Iron Moth	
-    - 1004	Chi-Yu	
+  fire: 
+    - 004 Charmander
+    - 005 Charmeleon
+    - 006 Charizard
+    - 006 Charizard Mega Charizard X
+    - 006 Charizard Mega Charizard Y
+    - 037 Vulpix
+    - 038 Ninetales
+    - 058 Growlithe
+    - 058 Growlithe Hisuian Growlithe
+    - 059 Arcanine
+    - 059 Arcanine Hisuian Arcanine
+    - 077 Ponyta
+    - 078 Rapidash	
+    - 105 Marowak Alolan Marowak
+    - 126 Magmar
+    - 128 Tauros Blaze Breed
+    - 136 Flareon
+    - 146 Moltres
+    - 155 Cyndaquil
+    - 156 Quilava
+    - 157 Typhlosion
+    - 157 Typhlosion Hisuian Typhlosion
+    - 218 Slugma
+    - 219 Magcargo 
+    - 228 Houndour 
+    - 229 Houndoom 
+    - 229 Houndoom Mega Houndoom
+    - 240 Magby
+    - 244 Entei
+    - 250 Ho-oh
+    - 255 Torchic
+    - 256 Combusken
+    - 257 Blaziken
+    - 257 Blaziken Mega Blaziken
+    - 322 Numel
+    - 323 Camerupt
+    - 323 Camerupt Mega Camerupt
+    - 324 Torkoal
+    - 351 Castform Sunny Form
+    - 383 Groudon Primal Groudon
+    - 390 Chimchar
+    - 391 Monferno
+    - 392 Infernape
+    - 467 Magmortar
+    - 479 Rotom Heat Rotom
+    - 485 Heatran
+    - 494 Victini
+    - 498 Tepig
+    - 499 Pignite
+    - 500 Emboar
+    - 513 Pansear
+    - 514 Simisear
+    - 554 Darumaka
+    - 555 Darmanitan Standard Mode
+    - 555 Darmanitan Zen Mode
+    - 555 Darmanitan Galarian Zen Mode
+    - 607 Litwick
+    - 608 Lampent
+    - 609 Chandelure	
+    - 631 Heatmor	
+    - 636 Larvesta	
+    - 637 Volcarona	
+    - 643 Reshiram	
+    - 653 Fennekin	
+    - 654 Braixen	
+    - 655 Delphox	
+    - 662 Fletchinder	
+    - 663 Talonflame	
+    - 667 Litleo	
+    - 668 Pyroar	
+    - 721 Volcanion	
+    - 725 Litten	
+    - 726 Torracat	
+    - 727 Incineroar	
+    - 741 Oricorio	Baile Style
+    - 757 Salandit	
+    - 758 Salazzle	
+    - 776 Turtonator	
+    - 806 Blacephalon	
+    - 813 Scorbunny	
+    - 814 Raboot	
+    - 815 Cinderace	
+    - 838 Carkol	
+    - 839 Coalossal	
+    - 850 Sizzlipede	
+    - 851 Centiskorch	
+    - 909 Fuecoco	
+    - 910 Crocalor	
+    - 911 Skeledirge	
+    - 935 Charcadet	
+    - 936 Armarouge	
+    - 937 Ceruledge	
+    - 952 Scovillain	
+    - 994 Iron Moth	
+    - 1004 Chi-Yu	
   grass:
     - 001	Bulbasaur	
     - 002	Ivysaur	
