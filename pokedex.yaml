@@ -1359,36 +1359,36 @@ type:
     - 973	Flamigo	
     - 993	Iron Jugulis	
   psychic:
-    - 026	Raichu	Alolan Raichu
-    - 063	Abra	
+    - 026	Raichu Alolan Raichu
+    - 063 Abra	
     - 064	Kadabra	
     - 065	Alakazam	
-    - 065	Alakazam	Mega Alakazam
-    - 077	Ponyta	Galarian Ponyta
-    - 078	Rapidash	Galarian Rapidash
+    - 065	Alakazam Mega Alakazam
+    - 077	Ponyta Galarian Ponyta
+    - 078	Rapidash Galarian Rapidash
     - 079	Slowpoke	
-    - 079	Slowpoke	Galarian Slowpoke
+    - 079	Slowpoke Galarian Slowpoke
     - 080	Slowbro	
     - 080	Slowbro	Mega Slowbro
-    - 080	Slowbro	Galarian Slowbro
+    - 080	Slowbro Galarian Slowbro
     - 096	Drowzee	
     - 097	Hypno	
     - 102	Exeggcute	
     - 103	Exeggutor	
     - 121	Starmie	
     - 122	Mr. Mime	
-    - 122	Mr. Mime	Galarian Mr. Mime
+    - 122	Mr. Mime Galarian Mr. Mime
     - 124	Jynx	
-    - 144	Articuno	Galarian Articuno
+    - 144	Articuno Galarian Articuno
     - 150	Mewtwo	
-    - 150	Mewtwo	Mega Mewtwo X
-    - 150	Mewtwo	Mega Mewtwo Y
+    - 150	Mewtwo Mega Mewtwo X
+    - 150	Mewtwo Mega Mewtwo Y
     - 151	Mew	
     - 177	Natu	
     - 178	Xatu	
     - 196	Espeon	
     - 199	Slowking	
-    - 199	Slowking	Galarian Slowking
+    - 199	Slowking Galarian Slowking
     - 201	Unown	
     - 202	Wobbuffet	
     - 203	Girafarig	
@@ -1398,7 +1398,7 @@ type:
     - 280	Ralts	
     - 281	Kirlia	
     - 282	Gardevoir	
-    - 282	Gardevoir	Mega Gardevoir
+    - 282	Gardevoir Mega Gardevoir
     - 307	Meditite	
     - 308	Medicham	
     - 308	Medicham	Mega Medicham
@@ -1415,20 +1415,20 @@ type:
     - 376	Metagross	
     - 376	Metagross	Mega Metagross
     - 380	Latias	
-    - 380	Latias	Mega Latias
+    - 380	Latias Mega Latias
     - 381	Latios	
-    - 381	Latios	Mega Latios
+    - 381	Latios Mega Latios
     - 385	Jirachi	
-    - 386	Deoxys	Normal Forme
-    - 386	Deoxys	Attack Forme
-    - 386	Deoxys	Defense Forme
-    - 386	Deoxys	Speed Forme
+    - 386	Deoxys Normal Forme
+    - 386	Deoxys Attack Forme
+    - 386	Deoxys Defense Forme
+    - 386	Deoxys Speed Forme
     - 433	Chingling	
     - 436	Bronzor	
     - 437	Bronzong	
     - 439	Mime Jr.	
     - 475	Gallade	
-    - 475	Gallade	Mega Gallade
+    - 475	Gallade Mega Gallade
     - 480	Uxie	
     - 481	Mesprit	
     - 482	Azelf	
@@ -1438,7 +1438,7 @@ type:
     - 518	Musharna	
     - 527	Woobat	
     - 528	Swoobat	
-    - 555	Darmanitan	Zen Mode
+    - 555	Darmanitan Zen Mode
     - 561	Sigilyph	
     - 574	Gothita	
     - 575	Gothorita	
@@ -1448,17 +1448,17 @@ type:
     - 579	Reuniclus	
     - 605	Elgyem	
     - 606	Beheeyem	
-    - 628	Braviary	Hisuian Braviary
-    - 648	Meloetta	Aria Forme
+    - 628	Braviary Hisuian Braviary
+    - 648	Meloetta Aria Forme
     - 655	Delphox	
     - 677	Espurr	
-    - 678	Meowstic	Male
-    - 678	Meowstic	Female
+    - 678	Meowstic Male
+    - 678	Meowstic Female
     - 686	Inkay	
     - 687	Malamar	
-    - 720	Hoopa	Hoopa Confined
-    - 720	Hoopa	Hoopa Unbound
-    - 741	Oricorio	Pa'u Style
+    - 720	Hoopa Hoopa Confined
+    - 720	Hoopa Hoopa Unbound
+    - 741	Oricorio Pa'u Style
     - 765	Oranguru	
     - 779	Bruxish	
     - 786	Tapu Lele	
@@ -1467,19 +1467,19 @@ type:
     - 791	Solgaleo	
     - 792	Lunala	
     - 800	Necrozma	
-    - 800	Necrozma	Dusk Mane Necrozma
-    - 800	Necrozma	Dawn Wings Necrozma
-    - 800	Necrozma	Ultra Necrozma
+    - 800	Necrozma Dusk Mane Necrozma
+    - 800	Necrozma Dawn Wings Necrozma
+    - 800	Necrozma Ultra Necrozma
     - 825	Dottler	
     - 826	Orbeetle	
     - 856	Hatenna	
     - 857	Hattrem	
     - 858	Hatterene	
     - 866	Mr. Rime	
-    - 876	Indeedee	Male
-    - 876	Indeedee	Female
+    - 876	Indeedee Male
+    - 876	Indeedee Female
     - 898	Calyrex	
-    - 898	Calyrex	Ice Rider
+    - 898	Calyrex Ice Rider
     - 898	Calyrex	Shadow Rider
     - 899	Wyrdeer	
     - 936	Armarouge	
@@ -1493,9 +1493,9 @@ type:
     - 092	Gastly	
     - 093	Haunter	
     - 094	Gengar	
-    - 094	Gengar	Mega Gengar
-    - 105	Marowak	Alolan Marowak
-    - 157	Typhlosion	Hisuian Typhlosion
+    - 094	Gengar Mega Gengar
+    - 105	Marowak Alolan Marowak
+    - 157	Typhlosion Hisuian Typhlosion
     - 200	Misdreavus	
     - 222	Corsola	Galarian Corsola
     - 292	Shedinja	
@@ -1503,7 +1503,7 @@ type:
     - 302	Sableye	Mega Sableye
     - 353	Shuppet	
     - 354	Banette	
-    - 354	Banette	Mega Banette
+    - 354	Banette Mega Banette
     - 355	Duskull	
     - 356	Dusclops	
     - 425	Drifloon	
@@ -1513,10 +1513,10 @@ type:
     - 477	Dusknoir	
     - 478	Froslass	
     - 479	Rotom	
-    - 487	Giratina	Altered Forme
-    - 487	Giratina	Origin Forme
+    - 487	Giratina Altered Forme
+    - 487	Giratina Origin Forme
     - 562	Yamask	
-    - 562	Yamask	Galarian Yamask
+    - 562	Yamask Galarian Yamask
     - 563	Cofagrigus	
     - 570	Zorua	Hisuian Zorua
     - 571	Zoroark	Hisuian Zoroark
@@ -1543,13 +1543,13 @@ type:
     - 711	Gourgeist	Super Size
     - 720	Hoopa	Hoopa Confined
     - 724	Decidueye	
-    - 741	Oricorio	Sensu Style
+    - 741	Oricorio Sensu Style
     - 769	Sandygast	
     - 770	Palossand	
     - 778	Mimikyu	
     - 781	Dhelmise	
     - 792	Lunala	
-    - 800	Necrozma	Dawn Wings Necrozma
+    - 800	Necrozma Dawn Wings Necrozma
     - 802	Marshadow	
     - 806	Blacephalon	
     - 854	Sinistea	
@@ -1571,8 +1571,8 @@ type:
     - 972	Houndstone	
     - 979	Annihilape	
     - 987	Flutter Mane	
-    - 999	Gimmighoul	Chest Form
-    - 999	Gimmighoul	Roaming Form
+    - 999	Gimmighoul Chest Form
+    - 999	Gimmighoul Roaming Form
     - 1000	Gholdengo	
   dragon:
     - 006	Charizard	Mega Charizard X
@@ -1580,9 +1580,9 @@ type:
     - 147	Dratini	
     - 148	Dragonair	
     - 149	Dragonite	
-    - 181	Ampharos	Mega Ampharos
+    - 181	Ampharos Mega Ampharos
     - 230	Kingdra	
-    - 254	Sceptile	Mega Sceptile
+    - 254	Sceptile Mega Sceptile
     - 329	Vibrava	
     - 330	Flygon	
     - 334	Altaria	
@@ -1592,21 +1592,21 @@ type:
     - 373	Salamence	
     - 373	Salamence	Mega Salamence
     - 380	Latias	
-    - 380	Latias	Mega Latias
+    - 380	Latias Mega Latias
     - 381	Latios	
-    - 381	Latios	Mega Latios
+    - 381	Latios Mega Latios
     - 384	Rayquaza	
-    - 384	Rayquaza	Mega Rayquaza
+    - 384	Rayquaza Mega Rayquaza
     - 443	Gible	
     - 444	Gabite	
     - 445	Garchomp	
-    - 445	Garchomp	Mega Garchomp
+    - 445	Garchomp Mega Garchomp
     - 483	Dialga	
-    - 483	Dialga	Origin Forme
+    - 483	Dialga Origin Forme
     - 484	Palkia	
-    - 484	Palkia	Origin Forme
-    - 487	Giratina	Altered Forme
-    - 487	Giratina	Origin Forme
+    - 484	Palkia Origin Forme
+    - 487	Giratina Altered Forme
+    - 487	Giratina Origin Forme
     - 610	Axew	
     - 611	Fraxure	
     - 612	Haxorus	
@@ -1617,8 +1617,8 @@ type:
     - 643	Reshiram	
     - 644	Zekrom	
     - 646	Kyurem	
-    - 646	Kyurem	White Kyurem
-    - 646	Kyurem	Black Kyurem
+    - 646	Kyurem White Kyurem
+    - 646	Kyurem Black Kyurem
     - 691	Dragalge	
     - 696	Tyrunt	
     - 697	Tyrantrum	
@@ -1626,19 +1626,19 @@ type:
     - 705	Sliggoo	
     - 705	Sliggoo	Hisuian Sliggoo
     - 706	Goodra	
-    - 706	Goodra	Hisuian Goodra
+    - 706	Goodra Hisuian Goodra
     - 714	Noibat	
     - 715	Noivern	
-    - 718	Zygarde	50% Forme
-    - 718	Zygarde	10% Forme
-    - 718	Zygarde	Complete Forme
+    - 718	Zygarde 50% Forme
+    - 718	Zygarde 10% Forme
+    - 718	Zygarde Complete Forme
     - 776	Turtonator	
     - 780	Drampa	
     - 782	Jangmo-o	
     - 783	Hakamo-o	
     - 784	Kommo-o	
     - 799	Guzzlord	
-    - 800	Necrozma	Ultra Necrozma
+    - 800	Necrozma Ultra Necrozma
     - 804	Naganadel	
     - 840	Applin	
     - 841	Flapple	
@@ -1653,9 +1653,9 @@ type:
     - 890	Eternatus	Eternamax
     - 895	Regidrago	
     - 967	Cyclizar	
-    - 978	Tatsugiri	Curly Form
-    - 978	Tatsugiri	Droopy Form
-    - 978	Tatsugiri	Stretchy Form
+    - 978	Tatsugiri Curly Form
+    - 978	Tatsugiri Droopy Form
+    - 978	Tatsugiri Stretchy Form
     - 996	Frigibax	
     - 997	Arctibax	
     - 998	Baxcalibur	
@@ -1663,21 +1663,21 @@ type:
     - 1007 Koraidon	
     - 1008 Miraidon	
   dark:
-    - 019	Rattata	Alolan Rattata
-    - 020	Raticate	Alolan Raticate
-    - 052	Meowth	Alolan Meowth
+    - 019	Rattata Alolan Rattata
+    - 020	Raticate Alolan Raticate
+    - 052	Meowth Alolan Meowth
     - 053	Persian	Alolan Persian
-    - 088	Grimer	Alolan Grimer
+    - 088	Grimer Alolan Grimer
     - 089	Muk	Alolan Muk
-    - 130	Gyarados	Mega Gyarados
+    - 130	Gyarados Mega Gyarados
     - 146	Moltres	Galarian Moltres
     - 197	Umbreon	
     - 198	Murkrow	
-    - 211	Qwilfish	Hisuian Qwilfish
+    - 211	Qwilfish Hisuian Qwilfish
     - 215	Sneasel	
     - 228	Houndour	
     - 229	Houndoom	
-    - 229	Houndoom	Mega Houndoom
+    - 229	Houndoom Mega Houndoom
     - 248	Tyranitar	
     - 248	Tyranitar	Mega Tyranitar
     - 261	Poochyena	
@@ -1690,7 +1690,7 @@ type:
     - 302	Sableye	Mega Sableye
     - 318	Carvanha	
     - 319	Sharpedo	
-    - 319	Sharpedo	Mega Sharpedo
+    - 319	Sharpedo Mega Sharpedo
     - 332	Cacturne	
     - 342	Crawdaunt	
     - 359	Absol	
@@ -1702,7 +1702,7 @@ type:
     - 452	Drapion	
     - 461	Weavile	
     - 491	Darkrai	
-    - 503	Samurott	Hisuian Samurott
+    - 503	Samurott Hisuian Samurott
     - 509	Purrloin	
     - 510	Liepard	
     - 551	Sandile	
@@ -1720,7 +1720,7 @@ type:
     - 634	Zweilous	
     - 635	Hydreigon	
     - 658	Greninja	
-    - 658	Greninja	Ash-Greninja
+    - 658	Greninja Ash-Greninja
     - 675	Pangoro	
     - 686	Inkay	
     - 687	Malamar	
@@ -1734,8 +1734,8 @@ type:
     - 860	Morgrem	
     - 861	Grimmsnarl	
     - 862	Obstagoon	
-    - 877	Morpeko	Full Belly Mode
-    - 877	Morpeko	Hangry Mode
+    - 877	Morpeko Full Belly Mode
+    - 877	Morpeko Hangry Mode
     - 892	Urshifu	Single Strike Style
     - 893	Zarude	
     - 904	Overqwil	
@@ -1755,23 +1755,23 @@ type:
   steel:
     - 027	Sandshrew	Alolan Sandshrew
     - 028	Sandslash	Alolan Sandslash
-    - 050	Diglett	Alolan Diglett
+    - 050	Diglett Alolan Diglett
     - 051	Dugtrio	Alolan Dugtrio
-    - 052	Meowth	Galarian Meowth
+    - 052	Meowth Galarian Meowth
     - 081	Magnemite	
     - 082	Magneton	
     - 205	Forretress	
     - 208	Steelix	
     - 208	Steelix	Mega Steelix
     - 212	Scizor	
-    - 212	Scizor	Mega Scizor
+    - 212	Scizor Mega Scizor
     - 227	Skarmory	
     - 303	Mawile	
-    - 303	Mawile	Mega Mawile
+    - 303	Mawile Mega Mawile
     - 304	Aron	
     - 305	Lairon	
     - 306	Aggron	
-    - 306	Aggron	Mega Aggron
+    - 306	Aggron Mega Aggron
     - 374	Beldum	
     - 375	Metang	
     - 376	Metagross	
@@ -1781,7 +1781,7 @@ type:
     - 395	Empoleon	
     - 410	Shieldon	
     - 411	Bastiodon	
-    - 413	Wormadam	Trash Cloak
+    - 413	Wormadam Trash Cloak
     - 436	Bronzor	
     - 437	Bronzong	
     - 448	Lucario	
@@ -1789,7 +1789,7 @@ type:
     - 462	Magnezone	
     - 476	Probopass	
     - 483	Dialga	
-    - 483	Dialga	Origin Forme
+    - 483	Dialga Origin Forme
     - 485	Heatran	
     - 530	Excadrill	
     - 589	Escavalier	
@@ -1798,7 +1798,7 @@ type:
     - 599	Klink	
     - 600	Klang	
     - 601	Klinklang	
-    - 618	Stunfisk	Galarian Stunfisk
+    - 618	Stunfisk Galarian Stunfisk
     - 624	Pawniard	
     - 625	Bisharp	
     - 632	Durant	
@@ -1808,14 +1808,14 @@ type:
     - 680	Doublade	
     - 681	Aegislash	Shield Forme
     - 681	Aegislash	Blade Forme
-    - 705	Sliggoo	Hisuian Sliggoo
-    - 706	Goodra	Hisuian Goodra
+    - 705	Sliggoo Hisuian Sliggoo
+    - 706	Goodra Hisuian Goodra
     - 707	Klefki	
     - 777	Togedemaru	
     - 791	Solgaleo	
     - 797	Celesteela	
     - 798	Kartana	
-    - 800	Necrozma	Dusk Mane Necrozma
+    - 800	Necrozma Dusk Mane Necrozma
     - 801	Magearna	
     - 805	Stakataka	
     - 808	Meltan	
@@ -1825,7 +1825,7 @@ type:
     - 878	Cufant	
     - 879	Copperajah	
     - 884	Duraludon	
-    - 888	Zacian	Crowned Sword
+    - 888	Zacian Crowned Sword
     - 889	Zamazenta	Crowned Shield
     - 957	Tinkatink	
     - 958	Tinkatuff	
@@ -1842,7 +1842,7 @@ type:
     - 038	Ninetales	Alolan Ninetales
     - 039	Jigglypuff	
     - 040	Wigglytuff	
-    - 078	Rapidash	Galarian Rapidash
+    - 078	Rapidash Galarian Rapidash
     - 110	Weezing	Galarian Weezing
     - 122	Mr. Mime	
     - 173	Cleffa	
@@ -1859,11 +1859,11 @@ type:
     - 282	Gardevoir	Mega Gardevoir
     - 298	Azurill	
     - 303	Mawile	
-    - 303	Mawile	Mega Mawile
+    - 303	Mawile Mega Mawile
     - 334	Altaria	Mega Altaria
     - 439	Mime Jr.	
     - 468	Togekiss	
-    - 531	Audino	Mega Audino
+    - 531	Audino Mega Audino
     - 546	Cottonee	
     - 547	Whimsicott	
     - 669	Flabébé	
@@ -1898,10 +1898,10 @@ type:
     - 861	Grimmsnarl	
     - 868	Milcery	
     - 869	Alcremie	
-    - 888	Zacian	Hero of Many Battles
-    - 888	Zacian	Crowned Sword
-    - 905	Enamorus	Incarnate Forme
-    - 905	Enamorus	Therian Forme
+    - 888	Zacian Hero of Many Battles
+    - 888	Zacian Crowned Sword
+    - 905	Enamorus Incarnate Forme
+    - 905	Enamorus Therian Forme
     - 926	Fidough	
     - 927	Dachsbun	
     - 957	Tinkatink	
