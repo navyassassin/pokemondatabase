@@ -5,6 +5,7 @@ from moves_loader import moves_load
 from pokedex_loader import pokedex_load
 from stats_loader import stats_load
 from types_loader import types_load
+from alphabetical_loader import alphabetical_load
 
 def main():
     abilities = abilities_load()
@@ -12,7 +13,8 @@ def main():
     pokedex = pokedex_load()
     stats = stats_load()
     types = types_load()
-    dictSelect = input("Enter a dictionary file to select (abilites, moves, pokedex, stats, types): ")
+    alphabetical = alphabetical_load()
+    dictSelect = input("Enter a dictionary file to select (abilites, moves, pokedex, stats, types, alphabetical): ")
     if(dictSelect == "abilities"):
         dict = abilities
     elif(dictSelect == "moves"):
@@ -23,6 +25,8 @@ def main():
         dict = stats
     elif(dictSelect == "types"):
         dict = types
+    elif(dictSelect == "alphabetical"):
+        dict = alphabetical
     else:
         print("IDk how you got here")
         exit()
