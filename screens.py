@@ -5,6 +5,52 @@ from asciimatics.scene import Scene
 from asciimatics.screen import Screen
 from asciimatics.exceptions import ResizeScreenError, NextScene, StopApplication
 import sys
+from typing import TypeVar, Generic
+
+from abilities_loader import abilities_load
+from moves_loader import moves_load
+from pokedex_loader import pokedex_load
+from stats_loader import stats_load
+from types_loader import types_load
+from searchDictionary import searchForValue, searchForKey
+
+"""
+class BookmarkModel(object):
+    isSearch: bool
+    isTeam: bool
+
+    def __init__(self)
+"""
+
+"""Helper functions"""
+
+T = TypeVar('T')
+
+A = TypeVar('A')
+B = TypeVar('B')
+
+def indexify_dict_keys(objects: dict[Generic[T]]) -> list[(Generic[T], int)]:
+#def indexify_dict_keys(objects):
+    just_keys = objects.keys()
+    just_indices = index_list(just_keys)
+
+    return list(zip(just_keys, just_indices))
+
+#def indexify_dict_values(objects: dict[Generic[T]]) -> list[(Generic[T], int)]:
+def indexify_dict_values(objects):
+    just_values = objects.values()
+    just_indices = index_list(just_values)
+
+    return list(zip(iter(just_values), just_indices))
+
+def index_list(objects: list[Generic[T]]) -> list[int]:
+#def index_list(objects):
+    index_list: list[int] = []
+    for i in range(len(objects)):
+        index_list.append(i)
+
+    return index_list
+
 
 class SearchView(Frame):
     def __init__(self, screen):
@@ -20,16 +66,15 @@ class SearchView(Frame):
         layout = Layout([100], fill_frame=True)
         self.add_layout(layout)
 
-        counter: int = 1
-        common_name: str = "NAME "
-        profile_names: list[(str, int)] = []
-        while counter <= 16:
-            profile_names.append((common_name + str(counter), counter))
-            counter = counter + 1
+        types: list[str] = types_load()
+        pokedex: list[str] = pokedex_load()
+        abilities: list[str] = abilities_load()
+        moves: list[str] = moves_load()
 
-        layout.add_widget(DropdownList(profile_names, "Type", fit = False))
-        layout.add_widget(DropdownList(profile_names, "Name", fit = False))
-        layout.add_widget(DropdownList(profile_names, "Ability", fit = False))
+        layout.add_widget(DropdownList(indexify_dict_keys(types), "Type", fit = False))
+        layout.add_widget(DropdownList(indexify_dict_values(pokedex), "Name", fit = False))
+        layout.add_widget(DropdownList(indexify_dict_keys(abilities), "Ability", fit = False))
+        layout.add_widget(DropdownList(indexify_dict_keys(moves), "Move", fit = False))
 
         #layout.add_widget(Label("Use arrow keys to navigate profiles", align = "^"))
         #layout.add_widget(Label("Press Enter to select highlighted option", align = "^"))
@@ -95,12 +140,14 @@ class BookmarkView(Frame):
 
         layout.add_widget(VerticalDivider(), 1)
 
+
         counter: int = 1
         common_name: str = "NAME "
         profile_names: list[(str, int)] = []
         while counter <= 10:
             profile_names.append((common_name + str(counter), counter))
             counter = counter + 1
+
 
         layout.add_widget(DropdownList(profile_names, fit = False), 2)
         #layout.add_widget(Label("\n\n\n\n", align = "^"))
@@ -351,7 +398,7 @@ def main(screen: Screen):
 
 
 #contacts = ContactModel()
-Screen.wrapper(func = main, catch_interrupt = True)
+Screen.wrapper(func = main, catch_interrupt = False)
 
 """
 contacts = ContactModel()
