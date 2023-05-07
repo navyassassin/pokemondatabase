@@ -1,149 +1,148 @@
-type:
-  bug:
-    supereffective_against:
-      - dark
-      - grass
-      - psychic
-    weak_to:
-      - rock
-      - flying
-      - fire
-  dark:
-    supereffective_against:
-      - ghost
-      - psychic
-    weak_to:
-      - bug 
-      - fairy
-      - rock
-  dragon:
-    supereffective_against:
-      - dragon
-    weak_to:
-      - dragon
-      - fairy
-      - ice
-  electric:
-    supereffective_against:
-      - flying
-      - water
-    weak_to:
-      - ground
-  fairy:
-    supereffective_against:
-      - dark
-      - dragon
-      - fairy 
-    weak_to:
-      - steel
-      - poison
-  fighting:
-    supereffective_against:
-      - dark
-      - ice
-      - normal
-      - rock
-      - steel
-    weak_to:
-      - fairy
-      - flying
-      - psychic
-  fire:
-    supereffective_against:
-      - bug
-      - grass
-      - ice
-      - steel
-    weak_to:
-      - water
-      - rock
-      - ground
-  flying:
-    supereffective_against:
-      - bug
-      - leaf
-      - fighting
-    weak_to:
-      - electric
-      - ice
-      - rock
-  ghost:
-    supereffective_against:
-      - ghost
-      - psychic
-    weak_to:
-      - ghost
-      - dark
-  grass:
-    supereffective_against:
-      - ground
-      - rock
-      - water
-    weak_to:
-      - poison
-      - ice
-      - flying
-      - fire
-      - bug
-  ground:
-    supereffective_against:
-      - ground
-      - fire
-      - poison
-      - rock
-      - steel
-    weak_to:
-      - water
-      - ice
-      - grass
-  ice:
-    supereffective_against:
-      - dragon
-      - flying
-      - grass
-      - ground
-    weak_to:
-      - steel
-      - rock
-      - fire
-      - fighting
-  normal:
-    supereffective_against:
-    weak_to:
-      - fighting
-  poison:
-    supereffective_against:
-      - fairy
-      - grass
-    weak_to:
-      - psychic
-      - ground
-  psychic:
-    supereffective_against:
-      - fighting
-      - poison
-    weak_to:
-      - ghost
-      - dark
-      - bug
-  rock:
-    supereffective_against:
-      - bug
-      - fire
-      - flying
-      - ice
-    weak_to:
-      - water
-      - steel
-      - ground
-      - grass
-      - fighting
-  steel:
-    supereffective_against:
-      - fairy
-      - ice
-      - rock
-    weak_to:
-      - ground
-      - fire
-      - fighting
+bug:
+  supereffective_against:
+    - dark
+    - grass
+    - psychic
+  weak_to:
+    - rock
+    - flying
+    - fire
+dark:
+  supereffective_against:
+    - ghost
+    - psychic
+  weak_to:
+    - bug 
+    - fairy
+    - rock
+dragon:
+  supereffective_against:
+    - dragon
+  weak_to:
+    - dragon
+    - fairy
+    - ice
+electric:
+  supereffective_against:
+    - flying
+    - water
+  weak_to:
+    - ground
+fairy:
+  supereffective_against:
+    - dark
+    - dragon
+    - fairy 
+  weak_to:
+    - steel
+    - poison
+fighting:
+  supereffective_against:
+    - dark
+    - ice
+    - normal
+    - rock
+    - steel
+  weak_to:
+    - fairy
+    - flying
+    - psychic
+fire:
+  supereffective_against:
+    - bug
+    - grass
+    - ice
+    - steel
+  weak_to:
+    - water
+    - rock
+    - ground
+flying:
+  supereffective_against:
+    - bug
+    - leaf
+    - fighting
+  weak_to:
+    - electric
+    - ice
+    - rock
+ghost:
+  supereffective_against:
+    - ghost
+    - psychic
+  weak_to:
+    - ghost
+    - dark
+grass:
+  supereffective_against:
+    - ground
+    - rock
+    - water
+  weak_to:
+    - poison
+    - ice
+    - flying
+    - fire
+    - bug
+ground:
+  supereffective_against:
+    - ground
+    - fire
+    - poison
+    - rock
+    - steel
+  weak_to:
+    - water
+    - ice
+    - grass
+ice:
+  supereffective_against:
+    - dragon
+    - flying
+    - grass
+    - ground
+  weak_to:
+    - steel
+    - rock
+    - fire
+    - fighting
+normal:
+  supereffective_against:
+  weak_to:
+    - fighting
+poison:
+  supereffective_against:
+    - fairy
+    - grass
+  weak_to:
+    - psychic
+    - ground
+psychic:
+  supereffective_against:
+    - fighting
+    - poison
+  weak_to:
+    - ghost
+    - dark
+    - bug
+rock:
+  supereffective_against:
+    - bug
+    - fire
+    - flying
+    - ice
+  weak_to:
+    - water
+    - steel
+    - ground
+    - grass
+    - fighting
+steel:
+  supereffective_against:
+    - fairy
+    - ice
+    - rock
+  weak_to:
+    - ground
+    - fire
+    - fighting

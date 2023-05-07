@@ -1,6 +1,11 @@
-#searches a dictionary, takes a specified value, and a dictionary. Optionally can also take a key to reduce search time. 
 
-def searchDict(searchedItem, myDict):
+#searches for a value and prints the associated key
+def searchForValue(searchedItem, myDict):
     for key in myDict.keys():
         if searchedItem in myDict[key]:
             print(key)
+
+#searches for a key and prints out the associated value
+def searchForKey(searchedKey, myDict):
+    if searchedKey in myDict.keys():
+        print(myDict[searchedKey])
