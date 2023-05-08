@@ -7,3 +7,4 @@ def stats_load():
         statsDict = yaml.load(f, Loader=yaml.Loader)
     #print(statsDict)
     return statsDict
+
