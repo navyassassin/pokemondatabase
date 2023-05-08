@@ -29,14 +29,14 @@ class SearchModel(object):
     move4: Optional[str]
 
     def __init__(self):
-        name = None
-        type1 = None
-        type2 = None
-        ability = None
-        move1 = None
-        move2 = None
-        move3 = None
-        move4 = None
+        self.name = None
+        self.type1 = None
+        self.type2 = None
+        self.ability = None
+        self.move1 = None
+        self.move2 = None
+        self.move3 = None
+        self.move4 = None
 
     def __eq__(self, other):
         return self.name == other.name \
@@ -235,11 +235,22 @@ T = TypeVar('T')
 A = TypeVar('A')
 B = TypeVar('B')
 
+def self_indexify_dict_keys(objects: dict[Generic[T]]) -> list[(Generic[T], Generic[T])]:
+    just_keys = objects.keys()
+    return list(zip(just_keys, just_keys))
+
+
 def indexify_dict_keys(objects: dict[Generic[T]]) -> list[(Generic[T], int)]:
     just_keys = objects.keys()
     just_indices = index_list(just_keys)
 
     return list(zip(just_keys, just_indices))
+
+def self_indexify_dict_keys_add_None(objects: dict[Generic[T]]) -> list[(Generic[T], Generic[T])]:
+    just_keys = list(objects.keys())
+    just_keys.insert(0, "None")
+
+    return list(zip(just_keys, just_keys))
 
 def indexify_dict_keys_add_None(objects: dict[Generic[T]]) -> list[(Generic[T], int)]:
     just_keys = list(objects.keys())
@@ -248,12 +259,25 @@ def indexify_dict_keys_add_None(objects: dict[Generic[T]]) -> list[(Generic[T], 
 
     return list(zip(just_keys, just_indices))
 
+def self_indexify_dict_values(objects: dict[(Generic[A], Generic[B])]) -> list[(Generic[B], Generic[B])]:
+    # Values are most likely returned as a list of lists
+    just_values = sum(objects.values(), [])
+
+    return list(zip(just_values, just_values))
+
 def indexify_dict_values(objects: dict[(Generic[A], Generic[B])]) -> list[(Generic[B], int)]:
     # Values are most likely returned as a list of lists
     just_values = sum(objects.values(), [])
     just_indices = index_list(just_values)
 
     return list(zip(just_values, just_indices))
+
+def self_indexify_dict_values_add_None(objects: dict[(Generic[A], Generic[B])]) -> list[(Generic[B], Generic[B])]:
+    # Values are most likely returned as a list of lists
+    just_values = list(sum(objects.values(), []))
+    just_values.insert(0, "None")
+
+    return list(zip(just_values, just_values))
 
 def indexify_dict_values_add_None(objects: dict[(Generic[A], Generic[B])]) -> list[(Generic[B], int)]:
     # Values are most likely returned as a list of lists
@@ -264,6 +288,11 @@ def indexify_dict_values_add_None(objects: dict[(Generic[A], Generic[B])]) -> li
 
     return list(zip(just_values, just_indices))
 
+def self_indexify_dict_values_unique(objects: dict[(Generic[A], Generic[B])]) -> list[(Generic[B], Generic[B])]:
+    # Concatenate all values together, then turn it into a set which only contains unique members, and then turn it back into a list
+    just_values = list(set(sum(objects.values(), [])))
+
+    return list(zip(sorted(just_values), just_values))
 
 def indexify_dict_values_unique(objects: dict[(Generic[A], Generic[B])]) -> list[(Generic[B], int)]:
     # Concatenate all values together, then turn it into a set which only contains unique members, and then turn it back into a list
@@ -271,6 +300,13 @@ def indexify_dict_values_unique(objects: dict[(Generic[A], Generic[B])]) -> list
     just_indices = index_list(just_values)
 
     return list(zip(sorted(just_values), just_indices))
+
+def self_indexify_dict_values_unique_add_None(objects: dict[(Generic[A], Generic[B])]) -> list[(Generic[B], Generic[B])]:
+    # Concatenate all values together, then turn it into a set which only contains unique members, and then turn it back into a list
+    just_values = list(set(sum(objects.values(), [])))
+    just_values.insert(0, "None")
+
+    return list(zip(sorted(just_values), just_values))
 
 def indexify_dict_values_unique_add_None(objects: dict[(Generic[A], Generic[B])]) -> list[(Generic[B], int)]:
     # Concatenate all values together, then turn it into a set which only contains unique members, and then turn it back into a list
@@ -283,18 +319,15 @@ def indexify_dict_values_unique_add_None(objects: dict[(Generic[A], Generic[B])]
 def index_list(objects: list[Generic[T]]) -> list[int]:
     return range(len(objects))
 
-"""
-    index_list: list[int] = []
-    for i in range(len(objects)):
-        index_list.append(i)
-
-    return index_list
-"""
-
 """End of Helper Functions"""
 
 class SearchView(Frame):
     search: SearchModel
+
+    alphabetical_yaml: list[list[str]]
+    types_yaml: list[str]
+    abilities_yaml: list[str]
+    moves_yaml: list[str]
 
     def __init__(self, screen, model):
         super(SearchView, self).__init__(screen,
@@ -307,36 +340,91 @@ class SearchView(Frame):
 
         #Save the passed in model for later
         self.search = model
+        self.types_yaml = pokedex_load()
+        self.alphabetical_yaml = alphabetical_load()
+        self.abilities_yaml = abilities_load()
+        self.moves_yaml = moves_load()
 
         layout = Layout([100], fill_frame=True)
         self.add_layout(layout)
 
-        types: list[str] = types_load()
-        alphabetical: list[list[str]] = alphabetical_load()
-        abilities: list[str] = abilities_load()
-        moves: list[str] = moves_load()
+        layout.add_widget(DropdownList(self_indexify_dict_values_add_None(self.alphabetical_yaml), "Name", "name", self.name_on_change, fit = True))
+        layout.add_widget(DropdownList(self_indexify_dict_keys_add_None(self.types_yaml), "Type", "type1", self.type1_on_change, fit = True))
+        layout.add_widget(DropdownList(self_indexify_dict_keys_add_None(self.types_yaml), "Type", "type2", self.type2_on_change, fit = True))
+        layout.add_widget(DropdownList(self_indexify_dict_keys_add_None(self.abilities_yaml), "Ability", "ability", self.ability_on_change, fit = True))
+        layout.add_widget(DropdownList(self_indexify_dict_values_unique_add_None(self.moves_yaml), "Move", "move1", self.move1_on_change, fit = True))
+        layout.add_widget(DropdownList(self_indexify_dict_values_unique_add_None(self.moves_yaml), "Move", "move2", self.move2_on_change, fit = True))
+        layout.add_widget(DropdownList(self_indexify_dict_values_unique_add_None(self.moves_yaml), "Move", "move3", self.move3_on_change, fit = True))
+        layout.add_widget(DropdownList(self_indexify_dict_values_unique_add_None(self.moves_yaml), "Move", "move4", self.move4_on_change, fit = True))
 
-        layout.add_widget(DropdownList(indexify_dict_values_add_None(alphabetical), "Name", "name", self.name_on_change, fit = True))
-        layout.add_widget(DropdownList(indexify_dict_keys_add_None(types), "Type", "type1", self.type1_on_change, fit = True))
-        layout.add_widget(DropdownList(indexify_dict_keys_add_None(types), "Type", "type2", self.type2_on_change, fit = True))
-        layout.add_widget(DropdownList(indexify_dict_keys_add_None(abilities), "Ability", "ability", self.ability_on_change, fit = True))
-        layout.add_widget(DropdownList(indexify_dict_values_unique_add_None(moves), "Move", "move1", self.move1_on_change, fit = True))
-        layout.add_widget(DropdownList(indexify_dict_values_unique_add_None(moves), "Move", "move2", self.move2_on_change, fit = True))
-        layout.add_widget(DropdownList(indexify_dict_values_unique_add_None(moves), "Move", "move3", self.move3_on_change, fit = True))
-        layout.add_widget(DropdownList(indexify_dict_values_unique_add_None(moves), "Move", "move4", self.move4_on_change, fit = True))
-
-        layout.add_widget(Button("Button to actual do the search and return a different screen that prints all of the matching Pokemon", self.placeholder))
+        layout.add_widget(Button("Button to actual do the search and return a different screen that prints all of the matching Pokemon", self.perform_query))
 
         self.fix()
 
-    def placeholder():
-        pass
+    def perform_query(self):
+        #Start with the list of all Pokemon
+        allPokemon: set[str] = set(sum(self.alphabetical_yaml.values(), []))
+
+        #Then, for any non-empty
+
+        if self.search.name is not None:
+            allPokemon.intersection(self.alphabetical_yaml[self.search.name])
+
+        if self.search.type1 is not None:
+            allPokemon.intersection(self.types_yaml[self.search.type1])
+
+        if self.search.type2 is not None:
+            allPokemon.intersection(self.types_yaml[self.search.type2])
+
+        """
+        if self.search.ability is not None:
+            allPokemon.intersection(alphabetical_yaml[self.search.ability])
+        """
+
+        if self.search.move1 is not None:
+            pokemon_with_move: list[str] = []
+
+            for poke in allPokemon:
+                if self.search.move1 in self.moves_yaml[poke]:
+                    pokemon_with_move.append(poke)
+
+            allPokemon.intersection(pokemon_with_move)
+
+
+        if self.search.move2 is not None:
+            pokemon_with_move: list[str] = []
+
+            for poke in allPokemon:
+                if self.search.move2 in self.moves_yaml[poke]:
+                    pokemon_with_move.append(poke)
+
+            allPokemon.intersection(pokemon_with_move)
+
+        if self.search.move3 is not None:
+            pokemon_with_move: list[str] = []
+
+            for poke in allPokemon.keys():
+                if self.search.move3 in self.moves_yaml[poke]:
+                    pokemon_with_move.append(poke)
+
+            allPokemon.intersection(pokemon_with_move)
+
+        if self.search.move4 is not None:
+            pokemon_with_move: list[str] = []
+
+            for poke in allPokemon.keys():
+                if self.search.move4 in self.moves_yaml[poke]:
+                    pokemon_with_move.append(poke)
+
+            allPokemon.intersection(pokemon_with_move)
+
+        #Now allPokemon should only have the Pokemon that have matched all of the queries
 
     def name_on_change(self):
         lay = self._layouts[0]
         val = lay.find_widget("name").value
 
-        if val is None:
+        if val == "None":
             self.search.remove_query_name()
         else:
             self.search.query_name(lay.find_widget("name").value)
@@ -345,7 +433,7 @@ class SearchView(Frame):
         lay = self._layouts[0]
         val = lay.find_widget("type1").value
 
-        if val is None:
+        if val == "None":
             self.search.remove_query_type1()
         else:
             self.search.query_type1(lay.find_widget("type1").value)
@@ -354,7 +442,7 @@ class SearchView(Frame):
         lay = self._layouts[0]
         val = lay.find_widget("type2").value
 
-        if val is None:
+        if val == "None":
             self.search.remove_query_type2()
         else:
             self.search.query_type2(lay.find_widget("type2").value)
@@ -363,7 +451,7 @@ class SearchView(Frame):
         lay = self._layouts[0]
         val = lay.find_widget("ability").value
 
-        if val is None:
+        if val == "None":
             self.search.remove_query_ability()
         else:
             self.search.query_ability(lay.find_widget("ability").value)
@@ -372,7 +460,7 @@ class SearchView(Frame):
         lay = self._layouts[0]
         val = lay.find_widget("move1").value
 
-        if val is None:
+        if val == "None":
             self.search.remove_query_move1()
         else:
             self.search.query_move1(lay.find_widget("move1").value)
@@ -381,7 +469,7 @@ class SearchView(Frame):
         lay = self._layouts[0]
         val = lay.find_widget("move2").value
 
-        if val is None:
+        if val == "None":
             self.search.remove_query_move2()
         else:
             self.search.query_move2(lay.find_widget("move2").value)
@@ -390,7 +478,7 @@ class SearchView(Frame):
         lay = self._layouts[0]
         val = lay.find_widget("move3").value
 
-        if val is None:
+        if val == "None":
             self.search.remove_query_move3()
         else:
             self.search.query_move3(lay.find_widget("move3").value)
@@ -399,7 +487,7 @@ class SearchView(Frame):
         lay = self._layouts[0]
         val = lay.find_widget("move4").value
 
-        if val is None:
+        if val == "None":
             self.search.remove_query_move4()
         else:
             self.search.query_move4(lay.find_widget("move4").value)
