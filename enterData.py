@@ -6,6 +6,7 @@ from pokedex_loader import pokedex_load
 from stats_loader import stats_load
 from types_loader import types_load
 from alphabetical_loader import alphabetical_load
+from noNumber_loader import pokedex_noNumbers_load
 
 def main():
     abilities = abilities_load()
@@ -14,6 +15,7 @@ def main():
     stats = stats_load()
     types = types_load()
     alphabetical = alphabetical_load()
+    noNum = pokedex_noNumbers_load()
     dictSelect = input("Enter a dictionary file to select (abilites, moves, pokedex, stats, types, alphabetical): ")
     if(dictSelect == "abilities"):
         dict = abilities
@@ -27,6 +29,8 @@ def main():
         dict = types
     elif(dictSelect == "alphabetical"):
         dict = alphabetical
+    elif(dictSelect == "noNum"):
+        dict = noNum
     else:
         print("IDk how you got here")
         exit()
