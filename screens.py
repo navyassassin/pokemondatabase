@@ -2,15 +2,18 @@ from asciimatics.widgets import Frame, ListBox, Layout, Divider, Text, \
     Button, TextBox, Widget, Label, DropdownList, VerticalDivider
 from asciimatics.event import Event, KeyboardEvent
 from asciimatics.scene import Scene
+from asciimatics.effects import Stars
 from asciimatics.screen import Screen
 from asciimatics.exceptions import ResizeScreenError, NextScene, StopApplication
 import sys
-from typing import TypeVar, Generic, Optional, Union
+from typing import TypeVar, Generic, Optional, Union, Tuple
 
 from abilities_loader import abilities_load
 from alphabetical_loader import alphabetical_load
 from moves_loader import moves_load
+from pokemon_abilities_loader import pokemon_abilities_load
 from pokedex_loader import pokedex_load
+from pokedex_nonNumbers_loader import pokedex_nonNumbers_load
 from stats_loader import stats_load
 from types_loader import types_load
 from searchDictionary import searchForValue, searchForKey
@@ -95,7 +98,6 @@ class SearchModel(object):
 
     def remove_query_move4(self):
         self.move4 = None
-
 
 #A team can be 6 Pokemon
 class TeamModel(object):
@@ -197,11 +199,16 @@ class ProfileModel(object):
     name: str
     bookmarks: list[BookmarkModel]
     teams: list[TeamModel]
+    current_search: Optional[Tuple[SearchModel, list[str]]]
 
     def __init__(self):
         self.name = ""
-        bookmarks = []
-        teams = []
+        self.bookmarks = []
+        self.teams = []
+        self.current_search = None
+
+    def modify_name(self, new_name: str):
+        self.name = new_name
 
     def addBookmark(self, bookmark: BookmarkModel):
         self.bookmarks.append(bookmark)
@@ -227,8 +234,81 @@ class ProfileModel(object):
     def replaceTeams(self, teams_list: list[TeamModel]):
         self.teams = teams_list
 
+    def add_current_search(self, search: SearchModel, matches: list[str]):
+        self.current_search = (search, matches)
+
+class PrimaryModel(object):
+    #list_profiles: list[ProfileModel]
+    #current_profile: Optional[ProfileModel]
+
+    def __init__(self):
+        self.list_profiles: list[ProfileModel] = []
+        self.current_profile: Optional[ProfileModel] = None
+
+    def set_current_profile(self, curr: Optional[ProfileModel]):
+        self.current_profile = curr
+
+    def add_current_profile_to_list(self):
+        if self.current_profile is not None:
+            self.list_profiles.append(self.current_profile)
+
+    def remove_profile_from_list(self, name: str):
+        for i in len(self.list_profiles):
+            if self.list_profiles[i].name == name:
+                self.list_profiles.pop(i)
+                break
+
+
+    #TODO: need to read from a file that should be a yaml file that contains bookmarks and teams
+    #If it exists, then improt
+    #Otherwise, assume empty and give the user a temporary one
+
+    #def read_profiles_from_file():
 
 """Helper functions"""
+
+class HomeView(Frame):
+    primaryModel: PrimaryModel
+
+    def __init__(self, screen, model: PrimaryModel):
+        super(HomeView, self).__init__(screen,
+                                          screen.height,
+                                          screen.width,
+                                          hover_focus=True,
+                                          can_scroll=False,
+                                          title="Home View",
+                                          reduce_cpu=True)
+
+        self.primaryModel = model
+
+        self.add_effect(Stars(screen, 200))
+
+        layout1 = Layout([100])
+        self.add_layout(layout1)
+
+        layout1.add_widget(Label("Welcome to Project Celery", align = "^"))
+
+        layout2 = Layout([20, 60, 20])
+        self.add_layout(layout2)
+        #The DropdownList should be populated with the options from the PrimaryModel, otherwise they should be able to enter a string to create a new ProfileModel. For now, let's only let them choose from the DropdownList. We can prepopulate this with empty ProfileModels and use them during class.
+        profile_names: list[str] = []
+        for profile in model.list_profiles:
+            profile_names.append(profile.name)
+
+        layout2.add_widget(DropdownList(list(zip(profile_names, model.list_profiles)), "Profile Name", "profile", self.profile_on_change, fit = True), 1)
+
+        layout3 = Layout([30, 40, 30], fill_frame = True)
+        self.add_layout(layout3)
+        layout3.add_widget(Button("Enter", self.go_to_main_screen), 1)
+
+        self.fix()
+
+    def profile_on_change(self):
+        self.primaryModel.set_current_profile(self._layouts[1].find_widget("profile").value)
+
+    def go_to_main_screen(self):
+        raise NextScene("Main View")
+
 
 T = TypeVar('T')
 
@@ -304,9 +384,10 @@ def indexify_dict_values_unique(objects: dict[(Generic[A], Generic[B])]) -> list
 def self_indexify_dict_values_unique_add_None(objects: dict[(Generic[A], Generic[B])]) -> list[(Generic[B], Generic[B])]:
     # Concatenate all values together, then turn it into a set which only contains unique members, and then turn it back into a list
     just_values = list(set(sum(objects.values(), [])))
+    just_values = sorted(just_values)
     just_values.insert(0, "None")
 
-    return list(zip(sorted(just_values), just_values))
+    return list(zip(just_values, just_values))
 
 def indexify_dict_values_unique_add_None(objects: dict[(Generic[A], Generic[B])]) -> list[(Generic[B], int)]:
     # Concatenate all values together, then turn it into a set which only contains unique members, and then turn it back into a list
@@ -323,26 +404,30 @@ def index_list(objects: list[Generic[T]]) -> list[int]:
 
 class SearchView(Frame):
     search: SearchModel
+    primary: PrimaryModel
 
     alphabetical_yaml: list[list[str]]
     types_yaml: list[str]
     abilities_yaml: list[str]
+    pokemon_abilities_yaml: list[str]
     moves_yaml: list[str]
 
-    def __init__(self, screen, model):
+    def __init__(self, screen, model: PrimaryModel):
         super(SearchView, self).__init__(screen,
-                                          screen.height * 2 // 3,
-                                          screen.width * 2 // 3,
+                                          screen.height,
+                                          screen.width,
                                           hover_focus=True,
                                           can_scroll=False,
                                           title="Search View",
                                           reduce_cpu=True)
 
         #Save the passed in model for later
-        self.search = model
-        self.types_yaml = pokedex_load()
+        self.search = SearchModel()
+        self.primary = model
+        self.types_yaml = pokedex_nonNumbers_load()
         self.alphabetical_yaml = alphabetical_load()
         self.abilities_yaml = abilities_load()
+        self.pokemon_abilities_yaml = pokemon_abilities_load()
         self.moves_yaml = moves_load()
 
         layout = Layout([100], fill_frame=True)
@@ -357,9 +442,20 @@ class SearchView(Frame):
         layout.add_widget(DropdownList(self_indexify_dict_values_unique_add_None(self.moves_yaml), "Move", "move3", self.move3_on_change, fit = True))
         layout.add_widget(DropdownList(self_indexify_dict_values_unique_add_None(self.moves_yaml), "Move", "move4", self.move4_on_change, fit = True))
 
-        layout.add_widget(Button("Button to actual do the search and return a different screen that prints all of the matching Pokemon", self.perform_query))
+        layout2 = Layout([100])
+        self.add_layout(layout2)
+        layout2.add_widget(Divider())
+
+        layout3 = Layout([1, 1, 1, 1])
+        self.add_layout(layout3)
+
+        layout3.add_widget(Button("Search", self.perform_query), 0)
+        layout3.add_widget(Button("Cancel", self.back_to_main_screen), 3)
 
         self.fix()
+
+    def back_to_main_screen(self):
+        raise NextScene("Main View")
 
     def perform_query(self):
         #Start with the list of all Pokemon
@@ -376,17 +472,24 @@ class SearchView(Frame):
         if self.search.type2 is not None:
             allPokemon.intersection(self.types_yaml[self.search.type2])
 
-        """
         if self.search.ability is not None:
-            allPokemon.intersection(alphabetical_yaml[self.search.ability])
-        """
+            pokemon_with_ability: list[str] = []
+
+            for poke in allPokemon:
+                poke = poke.lower()
+                if poke in self.abilities_yaml:
+                    if self.search.move1 in self.pokemon_abilities_yaml[poke]:
+                        pokemon_with_ability.append(poke.capitalize())
+
+            allPokemon.intersection(pokemon_with_ability)
 
         if self.search.move1 is not None:
             pokemon_with_move: list[str] = []
 
             for poke in allPokemon:
-                if self.search.move1 in self.moves_yaml[poke]:
-                    pokemon_with_move.append(poke)
+                if poke in self.moves_yaml:
+                    if self.search.move1 in self.moves_yaml[poke]:
+                        pokemon_with_move.append(poke)
 
             allPokemon.intersection(pokemon_with_move)
 
@@ -395,30 +498,37 @@ class SearchView(Frame):
             pokemon_with_move: list[str] = []
 
             for poke in allPokemon:
-                if self.search.move2 in self.moves_yaml[poke]:
-                    pokemon_with_move.append(poke)
+                if poke in self.moves_yaml:
+                    if self.search.move2 in self.moves_yaml[poke]:
+                        pokemon_with_move.append(poke)
 
             allPokemon.intersection(pokemon_with_move)
 
         if self.search.move3 is not None:
             pokemon_with_move: list[str] = []
 
-            for poke in allPokemon.keys():
-                if self.search.move3 in self.moves_yaml[poke]:
-                    pokemon_with_move.append(poke)
+            for poke in allPokemon:
+                if poke in self.moves_yaml:
+                    if self.search.move3 in self.moves_yaml[poke]:
+                        pokemon_with_move.append(poke)
 
             allPokemon.intersection(pokemon_with_move)
 
         if self.search.move4 is not None:
             pokemon_with_move: list[str] = []
 
-            for poke in allPokemon.keys():
-                if self.search.move4 in self.moves_yaml[poke]:
-                    pokemon_with_move.append(poke)
+            for poke in allPokemon:
+                if poke in self.moves_yaml:
+                    if self.search.move4 in self.moves_yaml[poke]:
+                        pokemon_with_move.append(poke)
 
             allPokemon.intersection(pokemon_with_move)
 
         #Now allPokemon should only have the Pokemon that have matched all of the queries
+        #Need to pass this to the other related Screen somehow
+        self.primary.current_profile.add_current_search(self.search, allPokemon)
+
+        raise NextScene("Search Result View")
 
     def name_on_change(self):
         lay = self._layouts[0]
@@ -495,18 +605,84 @@ class SearchView(Frame):
     def raise_main_exit_view(idk):
         raise NextScene("Exit View")
 
+#TODO: Move this helper function to be with other helper functions
+def print_id_or_empty(obj: Optional[str]):
+    if obj is None:
+        return "None"
+    else:
+        return obj
+
+#We pretty much want to return the result of the Search
+class SearchResultView(Frame):
+    primary: PrimaryModel
+
+    def __init__(self, screen, model: PrimaryModel):
+        super(SearchResultView, self).__init__(screen,
+                                          screen.height,
+                                          screen.width,
+                                          on_load = self.reload,
+                                          hover_focus=True,
+                                          can_scroll=False,
+                                          title="Search Result View",
+                                          reduce_cpu=True)
+
+        self.primary = model
+
+        current_search = model.current_profile.current_search
+
+    def reload(self):
+        current_search = self.primary.current_profile.current_search
+
+        for lay in self._layouts:
+            self.remove_effect(lay)
+
+        curr_query, curr_results = current_search
+
+        layout = Layout([100])
+        self.add_layout(layout)
+
+        layout.add_widget(Label("Name: " + print_id_or_empty(curr_query.name)))
+        layout.add_widget(Label("Type: " + print_id_or_empty(curr_query.type1)))
+        layout.add_widget(Label("Type: " + print_id_or_empty(curr_query.type2)))
+        layout.add_widget(Label("Ability: " + print_id_or_empty(curr_query.ability)))
+        layout.add_widget(Label("Move: " + print_id_or_empty(curr_query.move1)))
+        layout.add_widget(Label("Move: " + print_id_or_empty(curr_query.move2)))
+        layout.add_widget(Label("Move: " + print_id_or_empty(curr_query.move3)))
+        layout.add_widget(Label("Move: " + print_id_or_empty(curr_query.move4)))
+
+        layout2 = Layout([100])
+        self.add_layout(layout2)
+        layout2.add_widget(Divider())
+
+        layout3 = Layout([100])
+        self.add_layout(layout3)
+        if curr_results == []:
+            layout3.add_widget(Label("No matching Pokemon."))
+        else:
+            for i in curr_results:
+                layout3.add_widget(Label(i))
+
+        layout4 = Layout([1, 1, 1, 1])
+        self.add_layout(layout4)
+        layout4.add_widget(Button("IDK", self.go_to_main_screen), 3)
+
+        self.fix()
+
+
+    def go_to_main_screen(self):
+        raise NextScene("Main View")
+
 
 class ConstructView(Frame):
     def __init__(self, screen):
         super(ConstructView, self).__init__(screen,
-                                          screen.height * 2 // 3,
-                                          screen.width * 2 // 3,
+                                          screen.height,
+                                          screen.width,
                                           hover_focus=True,
                                           can_scroll=False,
                                           title="Construct View",
                                           reduce_cpu=True)
 
-        # Create the form for displaying the list of contacts.
         layout = Layout([30, 0, 70], fill_frame=True)
         self.add_layout(layout)
 
@@ -536,8 +712,8 @@ class ConstructView(Frame):
 class BookmarkView(Frame):
     def __init__(self, screen):
         super(BookmarkView, self).__init__(screen,
-                                          screen.height * 2 // 3,
-                                          screen.width * 2 // 3,
+                                          screen.height,
+                                          screen.width,
                                           hover_focus=True,
                                           can_scroll=False,
                                           title="Bookmark View",
@@ -576,8 +752,8 @@ class BookmarkView(Frame):
 class ProfileView(Frame):
     def __init__(self, screen):
         super(ProfileView, self).__init__(screen,
-                                          screen.height * 2 // 3,
-                                          screen.width * 2 // 3,
+                                          screen.height,
+                                          screen.width,
                                           hover_focus=True,
                                           can_scroll=False,
                                           title="Profile View",
@@ -605,45 +781,47 @@ class ProfileView(Frame):
 
 
 class ExitView(Frame):
-    def __init__(self, screen):
+    primary: PrimaryModel
+    def __init__(self, screen, model: PrimaryModel):
         super(ExitView, self).__init__(screen,
-                                          screen.height * 2 // 3,
-                                          screen.width * 2 // 3,
+                                          screen.height,
+                                          screen.width,
                                           hover_focus=True,
                                           can_scroll=False,
                                           title="Exit View",
                                           reduce_cpu=True)
 
-        # Create the form for displaying the list of contacts.
+        self.primary = model
+
         layout = Layout([100], fill_frame=True)
         self.add_layout(layout)
 
         layout.add_widget(Label("You are now exiting the program", align = "^"))
         layout.add_widget(Label("Would you like to save your changes to the following profile:", align = "^"))
-        #layout.add_widget(Label(model.get_profile_name()))
-        layout.add_widget(Label("PLACEHOLDER", align = "^"))
+        layout.add_widget(Label(model.current_profile.name, align = "^"))
 
-        layout.add_widget(Label("Press Y to save changes", align = "^"))
-        layout.add_widget(Label("Press N to discard changes", align = "^"))
+        layout.add_widget(Divider())
+
+        layout2 = Layout([1, 1, 1, 1])
+        self.add_layout(layout2)
+
+        layout2.add_widget(Button("Save", self.save_profile), 0)
+        layout2.add_widget(Button("Discard", self.exit), 3)
+
         self.fix()
 
-"""
-    def process_event(event: Event):
-        key = self.get_event()
+    def save_profile(self):
+        self.primary.list_profiles.append(self.primary.current_profile)
+        sys.exit(0)
 
-        if isinstance(event, KeyboardEvent):
-            if (key.key_code is ord('y')) or (key.key_code is ord('Y')):
-                #TODO do actual saving
-                sys.exit(0)
-            elif (key.key_code is ord('n')) or (key.key_code is ord('N')):
-                sys.exit(0)
-"""
+    def exit(self):
+        sys.exit(0)
 
 class MainView(Frame):
     def __init__(self, screen):
         super(MainView, self).__init__(screen,
-                                          screen.height * 2 // 3,
-                                          screen.width * 2 // 3,
+                                          screen.height,
+                                          screen.width,
                                           hover_focus=True,
                                           can_scroll=False,
                                           title="Main view",
@@ -652,29 +830,47 @@ class MainView(Frame):
         #self._model = model
 
         # Create the form for displaying the list of contacts.
-        layout = Layout([20, 60, 20], fill_frame=True)
-        self.add_layout(layout)
-        layout.add_widget(Button("Browse Bookmarks", self.raise_main_bookmark_view, add_box = False), 1)
-        layout.add_widget(Button("Search Database", self.raise_main_search_view, add_box = False), 1)
-        layout.add_widget(Button("Construct Team", self.raise_main_construct_view, add_box = False), 1)
-        layout.add_widget(Button("Switch Profiles", self.raise_main_profile_view, add_box = False), 1)
-        layout.add_widget(Button("Exit", self.raise_main_exit_view, add_box = False), 1)
+        layout1 = Layout([20, 60, 20])
+        self.add_layout(layout1)
+        layout1.add_widget(Button("Browse Bookmarks", self.raise_main_bookmark_view, add_box = False), 1)
+
+        layout2 = Layout([20, 60, 20])
+        self.add_layout(layout2)
+        layout2.add_widget(Button("Search Database", self.raise_main_search_view, add_box = False), 1)
+
+        layout3 = Layout([20, 60, 20])
+        self.add_layout(layout3)
+        layout3.add_widget(Button("Construct Team", self.raise_main_construct_view, add_box = False), 1)
+
+        layout4 = Layout([20, 60, 20])
+        self.add_layout(layout4)
+        layout4.add_widget(Button("Switch Profiles", self.raise_main_profile_view, add_box = False), 1)
+
+        layout5 = Layout([20, 60, 20])
+        self.add_layout(layout5)
+        layout5.add_widget(Button("Exit", self.raise_main_exit_view, add_box = False), 1)
+
         self.fix()
 
-    def raise_main_bookmark_view(idk):
+    def raise_main_bookmark_view(self):
         raise NextScene("Bookmark View")
+        #return scenes[find_scene_index("Bookmark View", scenes)]
 
-    def raise_main_search_view(idk):
+    def raise_main_search_view(self):
         raise NextScene("Search View")
+        #return scenes[find_scene_index("Search View", scenes)]
 
     def raise_main_construct_view(idk):
         raise NextScene("Construct View")
+        #return scenes[find_scene_index("Main View", scenes)]
 
     def raise_main_profile_view(idk):
         raise NextScene("Profile View")
+        #return scenes[find_scene_index("Profile View", scenes)]
 
     def raise_main_exit_view(idk):
         raise NextScene("Exit View")
+        #return scenes[find_scene_index("Exit View", scenes)]
 
     def reset(self):
         # Do standard reset to clear out form, then populate with new data.
@@ -685,20 +881,11 @@ class MainView(Frame):
         self.save()
         #self._model.update_current_contact(self.data)
         raise NextScene("Main View")
+        #return scenes[find_scene_index("Main View", scenes)]
 
     @staticmethod
     def _cancel():
         raise NextScene("Main View")
-
-"""
-def demo(screen, scene):
-    scenes = [
-        Scene([MainView(screen, contacts)], -1, name="Main View"),
-        Scene([ExitView(screen, contacts)], -1, name="Exit View")
-    ]
-
-    screen.play(scenes, stop_on_resize=True, start_scene=scene, allow_int=True)
-"""
 
 def handle_search_screen(screen: Screen, scenes: list[Scene], scene: Scene):
     not_None: bool = scene is not None
@@ -707,8 +894,7 @@ def handle_search_screen(screen: Screen, scenes: list[Scene], scene: Scene):
     if not_None and is_search_view:
         screen.play(scenes, stop_on_resize = True, start_scene = scene)
 
-    return scenes[find_scene_index("Search View", scenes)]
-
+    #return scenes[find_scene_index("Search View", scenes)]
 
 def handle_bookmark_screen(screen: Screen, scenes: list[Scene], scene: Scene):
     not_None: bool = scene is not None
@@ -717,7 +903,7 @@ def handle_bookmark_screen(screen: Screen, scenes: list[Scene], scene: Scene):
     if not_None and is_bookmark_view:
         screen.play(scenes, stop_on_resize = True, start_scene = scene)
 
-    return scenes[find_scene_index("Bookmark View", scenes)]
+    #return scenes[find_scene_index("Bookmark View", scenes)]
 
 def handle_construct_screen(screen: Screen, scenes: list[Scene], scene: Scene):
     not_None: bool = scene is not None
@@ -726,7 +912,7 @@ def handle_construct_screen(screen: Screen, scenes: list[Scene], scene: Scene):
     if not_None and is_construct_view:
         screen.play(scenes, stop_on_resize = True, start_scene = scene)
 
-    return scenes[find_scene_index("Construct View", scenes)]
+    #return scenes[find_scene_index("Construct View", scenes)]
 
 def handle_profile_screen(screen: Screen, scenes: list[Scene], scene: Scene):
     not_None: bool = scene is not None
@@ -735,8 +921,10 @@ def handle_profile_screen(screen: Screen, scenes: list[Scene], scene: Scene):
     if not_None and is_profile_view:
         screen.play(scenes, stop_on_resize = True, start_scene = scene)
 
-    return scenes[find_scene_index("Profile View", scenes)]
+    #return scenes[find_scene_index("Profile View", scenes)]
 
+def handle_home_screen(screen: Screen, scenes: list[Scene], scene: Scene):
+    screen.play(scenes, stop_on_resize = True, start_scene = scene)
 
 def handle_main_screen(screen: Screen, scenes: list[Scene], scene: Scene):
     not_None: bool = scene is not None
@@ -745,12 +933,7 @@ def handle_main_screen(screen: Screen, scenes: list[Scene], scene: Scene):
     if not_None and is_main_view:
         screen.play(scenes, stop_on_resize = True, start_scene = scene)
 
-    return scenes[find_scene_index("Main View", scenes)]
-
-def exit_on_y_n(event: Event):
-    if isinstance(event, KeyboardEvent):
-        if event.key_code in (ord("Y"), ord("y"), ord("N"), ord("n")):
-            sys.exit(0)
+    #return scenes[find_scene_index("Main View", scenes)]
 
 def handle_exit_screen(screen: Screen, scenes: list[Scene], scene: Scene):
     not_None: bool = scene is not None
@@ -776,51 +959,68 @@ def find_scene_index(name: str, scenes: list[Scene]) -> int:
     return -1
 
 
-def controller(screen: Screen, scenes: list[Scene], scene: Scene) -> Scene:
-    if scene is None:
-        sys.exit(0)
+def controller(screen: Screen, scenes: list[Scene], scene: Optional[Scene]):
 
-    scene_name = scene.name
-    if scene_name == "Main View":
-        controller(screen, scenes, handle_main_screen(screen, scenes, scene))
-    elif scene_name == "Search View":
-        controller(screen, scenes, handle_exit_screen(screen, scenes, scene))
-    elif scene_name == "Exit View":
-        controller(screen, scenes, handle_exit_screen(screen, scenes, scene))
-    elif scene_name == "Construct View":
-        controller(screen, scenes, handle_construct_screen(screen, scenes, scene))
-    elif scene_name == "Profile View":
-        controller(screen, scenes, handle_profile_screen(screen, scenes, scene))
-    elif scene_name == "Bookmark View":
-        controller(screen, scenes, handle_bookmark_screen(screen, scenes, scene))
+    while True:
+        if scene is None:
+            sys.exit(0)
+
+        scene_name = scene.name
+        if scene_name == "Home View":
+            handle_home_screen(screen, scenes, scene)
+        elif scene_name == "Main View":
+                #raise NextScene("Main View")
+            handle_main_screen(screen, scenes, scene)
+        elif scene_name == "Search View":
+                #raise NextScene("Search View")
+            handle_exit_screen(screen, scenes, scene)
+        elif scene_name == "Exit View":
+                #raise NextScene("Exit View")
+            handle_exit_screen(screen, scenes, scene)
+        elif scene_name == "Construct View":
+                #raise NextScene("Construct View")
+            handle_construct_screen(screen, scenes, scene)
+        elif scene_name == "Profile View":
+                #raise NextScene("Profile View")
+            handle_profile_screen(screen, scenes, scene)
+        elif scene_name == "Bookmark View":
+                #raise NextScene("Bookmark View")
+            handle_bookmark_screen(screen, scenes, scene)
+        else:
+            sys.exit(0)
 
 
-def main(screen: Screen):
+def main(screen: Screen, primary: PrimaryModel):
+
     search: SearchModel = SearchModel()
 
     scenes = [
+        Scene([HomeView(screen, primary)], -1, name="Home View"),
         Scene([MainView(screen)], -1, name="Main View"),
-        Scene([ExitView(screen)], -1, name="Exit View"),
+        Scene([ExitView(screen, primary)], -1, name="Exit View"),
         Scene([ProfileView(screen)], -1, name="Profile View"),
         Scene([ConstructView(screen)], -1, name="Construct View"),
         Scene([BookmarkView(screen)], -1, name="Bookmark View"),
-        Scene([SearchView(screen, search)], -1, name="Search View")
+        Scene([SearchView(screen, primary)], -1, name="Search View"),
+        Scene([SearchResultView(screen, primary)], -1, name="Search Result View")
     ]
     scene = scenes[0]
 
     controller(screen, scenes, scene)
 
 
-#contacts = ContactModel()
-Screen.wrapper(func = main, catch_interrupt = False)
+primary: PrimaryModel = PrimaryModel()
+for i in range(5):
+    profile: ProfileModel = ProfileModel()
+    profile.modify_name("temp" + str(i))
+    primary.set_current_profile(profile)
+    primary.add_current_profile_to_list()
 
-"""
-contacts = ContactModel()
-last_scene = None
+
 while True:
     try:
-        Screen.wrapper(demo, catch_interrupt=True, arguments=[last_scene])
+        Screen.wrapper(func = main, catch_interrupt = False, arguments = [primary])
         sys.exit(0)
     except ResizeScreenError as e:
         last_scene = e.scene
-"""
+
