@@ -464,13 +464,13 @@ class SearchView(Frame):
         #Then, for any non-empty
 
         if self.search.name is not None:
-            allPokemon.intersection(self.alphabetical_yaml[self.search.name])
+            allPokemon = allPokemon.intersection(self.alphabetical_yaml[self.search.name])
 
         if self.search.type1 is not None:
-            allPokemon.intersection(self.types_yaml[self.search.type1])
+            allPokemon = allPokemon.intersection(self.types_yaml[self.search.type1])
 
         if self.search.type2 is not None:
-            allPokemon.intersection(self.types_yaml[self.search.type2])
+            allPokemon = allPokemon.intersection(self.types_yaml[self.search.type2])
 
         if self.search.ability is not None:
             pokemon_with_ability: list[str] = []
@@ -481,7 +481,7 @@ class SearchView(Frame):
                     if self.search.move1 in self.pokemon_abilities_yaml[poke]:
                         pokemon_with_ability.append(poke.capitalize())
 
-            allPokemon.intersection(pokemon_with_ability)
+            allPokemon = allPokemon.intersection(pokemon_with_ability)
 
         if self.search.move1 is not None:
             pokemon_with_move: list[str] = []
@@ -491,7 +491,7 @@ class SearchView(Frame):
                     if self.search.move1 in self.moves_yaml[poke]:
                         pokemon_with_move.append(poke)
 
-            allPokemon.intersection(pokemon_with_move)
+            allPokemon = allPokemon.intersection(pokemon_with_move)
 
 
         if self.search.move2 is not None:
@@ -502,7 +502,7 @@ class SearchView(Frame):
                     if self.search.move2 in self.moves_yaml[poke]:
                         pokemon_with_move.append(poke)
 
-            allPokemon.intersection(pokemon_with_move)
+            allPokemon = allPokemon.intersection(pokemon_with_move)
 
         if self.search.move3 is not None:
             pokemon_with_move: list[str] = []
@@ -512,7 +512,7 @@ class SearchView(Frame):
                     if self.search.move3 in self.moves_yaml[poke]:
                         pokemon_with_move.append(poke)
 
-            allPokemon.intersection(pokemon_with_move)
+            allPokemon = allPokemon.intersection(pokemon_with_move)
 
         if self.search.move4 is not None:
             pokemon_with_move: list[str] = []
@@ -522,7 +522,7 @@ class SearchView(Frame):
                     if self.search.move4 in self.moves_yaml[poke]:
                         pokemon_with_move.append(poke)
 
-            allPokemon.intersection(pokemon_with_move)
+            allPokemon = allPokemon.intersection(pokemon_with_move)
 
         #Now allPokemon should only have the Pokemon that have matched all of the queries
         #Need to pass this to the other related Screen somehow
@@ -659,12 +659,12 @@ class SearchResultView(Frame):
         if curr_results == []:
             layout3.add_widget(Label("No matching Pokemon."))
         else:
-            for i in curr_results:
+            for i in sorted(curr_results):
                 layout3.add_widget(Label(i))
 
         layout4 = Layout([1, 1, 1, 1])
         self.add_layout(layout4)
-        layout4.add_widget(Button("IDK", self.go_to_main_screen), 3)
+        layout4.add_widget(Button("Main", self.go_to_main_screen), 3)
 
         self.fix()
 
@@ -674,7 +674,17 @@ class SearchResultView(Frame):
 
 
 class ConstructView(Frame):
-    def __init__(self, screen):
+    primary: PrimaryModel
+    curr_team_index: int
+    curr_team: TeamModel
+
+    alphabetical_yaml: list[list[str]]
+    types_yaml: list[str]
+    abilities_yaml: list[str]
+    pokemon_abilities_yaml: list[str]
+    moves_yaml: list[str]
+
+    def __init__(self, screen, model: PrimaryModel):
         super(ConstructView, self).__init__(screen,
                                           screen.height,
                                           screen.width,
@@ -683,27 +693,52 @@ class ConstructView(Frame):
                                           title="Construct View",
                                           reduce_cpu=True)
 
+        self.primary = model
+        self.curr_team_index = -1
+
+        self.types_yaml = pokedex_nonNumbers_load()
+        self.alphabetical_yaml = alphabetical_load()
+        self.abilities_yaml = abilities_load()
+        self.pokemon_abilities_yaml = pokemon_abilities_load()
+        self.moves_yaml = moves_load()
+
+
+    def reload(self):
+        for lay in self._layouts:
+            self.remove_effect(lay)
+
         layout = Layout([30, 0, 70], fill_frame=True)
         self.add_layout(layout)
 
-        layout.add_widget(Button("Team 1", self.raise_main_exit_view), 0)
-        layout.add_widget(Button("Team 2", self.raise_main_exit_view), 0)
+        layout.add_widget(Button("Create new team"), self.append_new_team)
+        for i in len(model.current_profile.teams):
+            layout.add_widget(Button("Team " + str(i), self.set_current_team(i)), 0)
 
         layout.add_widget(VerticalDivider(), 1)
 
-        counter: int = 1
-        common_name: str = "NAME "
-        profile_names: list[(str, int)] = []
-        while counter <= 10:
-            profile_names.append((common_name + str(counter), counter))
-            counter = counter + 1
+        if self.curr_team_index in range(len(self.primary.current_profile.teams)):
+            for poke in self.primary.current_profile.teams[self.curr_team_index]:
+                layout.add_widget(DropdownList(self_indexify_dict_values_add_None(self.alphabetical_yaml), "Name", "name", self.name_on_change, fit = True))
+                layout.add_widget(DropdownList(self_indexify_dict_keys_add_None(self.types_yaml), "Type", "type1", self.type1_on_change, fit = True))
+                layout.add_widget(DropdownList(self_indexify_dict_keys_add_None(self.types_yaml), "Type", "type2", self.type2_on_change, fit = True))
+                layout.add_widget(DropdownList(self_indexify_dict_keys_add_None(self.abilities_yaml), "Ability", "ability", self.ability_on_change, fit = True))
+                layout.add_widget(DropdownList(self_indexify_dict_values_unique_add_None(self.moves_yaml), "Move", "move1", self.move1_on_change, fit = True))
+                layout.add_widget(DropdownList(self_indexify_dict_values_unique_add_None(self.moves_yaml), "Move", "move2", self.move2_on_change, fit = True))
+                layout.add_widget(DropdownList(self_indexify_dict_values_unique_add_None(self.moves_yaml), "Move", "move3", self.move3_on_change, fit = True))
+                layout.add_widget(DropdownList(self_indexify_dict_values_unique_add_None(self.moves_yaml), "Move", "move4", self.move4_on_change, fit = True))
+                layout.add_widget(Divider())
 
-        layout.add_widget(DropdownList(profile_names, fit = False), 2)
-        #layout.add_widget(Label("\n\n\n\n", align = "^"))
 
-        #layout.add_widget(Label("Use arrow keys to navigate profiles", align = "^"))
-        #layout.add_widget(Label("Press Enter to select highlighted option", align = "^"))
+
         self.fix()
+
+    def set_current_team(self, index: int):
+        self.curr_team_index = index
+        self.reload()
+
+    def prepend_new_team(self):
+        self.primary.current_profile.teams = self.primary.current_profile.teams.insert(0, TeamModel())
+        self.reload()
 
     def raise_main_exit_view(idk):
         raise NextScene("Exit View")
@@ -750,7 +785,9 @@ class BookmarkView(Frame):
 
 
 class ProfileView(Frame):
-    def __init__(self, screen):
+    primary: PrimaryModel
+
+    def __init__(self, screen, model: PrimaryModel):
         super(ProfileView, self).__init__(screen,
                                           screen.height,
                                           screen.width,
@@ -759,26 +796,29 @@ class ProfileView(Frame):
                                           title="Profile View",
                                           reduce_cpu=True)
 
-        # Create the form for displaying the list of contacts.
-        layout = Layout([20, 60, 20], fill_frame=True)
+        self.primary = model
+        layout = Layout([20, 60, 20])
         self.add_layout(layout)
 
-        layout.add_widget(Label("Select a profile\n", align = "^"))
+        layout.add_widget(Label("Select a profile", align = "^"), 1)
 
-        counter: int = 1
-        common_name: str = "NAME "
-        profile_names: list[(str, int)] = []
-        while counter <= 10:
-            profile_names.append((common_name + str(counter), counter))
-            counter = counter + 1
+        profile_names: list[str] = []
+        for profile in model.list_profiles:
+            profile_names.append(profile.name)
 
-        layout.add_widget(DropdownList(profile_names, fit = False))
-        layout.add_widget(Label("\n\n\n\n", align = "^"))
+        layout.add_widget(DropdownList(list(zip(profile_names, model.list_profiles)), "Profile Name", "profile", self.profile_on_change, fit = True), 1)
 
-        layout.add_widget(Label("Use arrow keys to navigate profiles", align = "^"))
-        layout.add_widget(Label("Press Enter to select highlighted option", align = "^"))
+        layout2 = Layout([30, 40, 30], fill_frame = True)
+        self.add_layout(layout2)
+        layout2.add_widget(Button("Enter", self.go_to_main_screen), 1)
+
         self.fix()
 
+    def profile_on_change(self):
+        self.primary.set_current_profile(self._layouts[0].find_widget("profile").value)
+
+    def go_to_main_screen(self):
+        raise NextScene("Main View")
 
 class ExitView(Frame):
     primary: PrimaryModel
@@ -998,8 +1038,8 @@ def main(screen: Screen, primary: PrimaryModel):
         Scene([HomeView(screen, primary)], -1, name="Home View"),
         Scene([MainView(screen)], -1, name="Main View"),
         Scene([ExitView(screen, primary)], -1, name="Exit View"),
-        Scene([ProfileView(screen)], -1, name="Profile View"),
-        Scene([ConstructView(screen)], -1, name="Construct View"),
+        Scene([ProfileView(screen, primary)], -1, name="Profile View"),
+        Scene([ConstructView(screen, primary)], -1, name="Construct View"),
         Scene([BookmarkView(screen)], -1, name="Bookmark View"),
         Scene([SearchView(screen, primary)], -1, name="Search View"),
         Scene([SearchResultView(screen, primary)], -1, name="Search Result View")
